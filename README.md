@@ -10,7 +10,7 @@ A FastAPI-based REST API for generating random numbers and managing random items
 
 ## Project Structure
 
-```
+```bash
 randomizer/
 ├── src/randomizer/
 │   ├── __init__.py
