@@ -27,6 +27,8 @@ randomizer/
 │   ├── test_random.py    # Tests for random endpoints
 │   └── test_items.py     # Tests for item endpoints
 ├── pyproject.toml
+├── Dockerfile
+├── docker-compose.yml
 └── README.md
 ```
 
@@ -51,6 +53,50 @@ uv run fastapi run src/randomizer/main.py
 ```
 
 The API will be available at `http://localhost:8000`
+
+## Docker
+
+### Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/) (for local development)
+
+### Local Development
+
+```bash
+# Build and run with hot reload
+docker compose up
+
+# Run in background
+docker compose up -d
+
+# View logs
+docker compose logs -f
+
+# Stop the container
+docker compose down
+```
+
+The API will be available at `http://localhost:8000`
+
+### Production Deployment (Render)
+
+Connect your GitHub repository to [Render](https://render.com/) and use:
+
+- **Build Command**: `docker build -t randomizer-api .`
+- **Port**: `10000`
+
+Render will automatically detect the health endpoint and configure SSL.
+
+### Manual Docker Run
+
+```bash
+# Build the image
+docker build -t randomizer-api .
+
+# Run the container
+docker run -p 8000:10000 randomizer-api
+```
 
 ## API Documentation
 
