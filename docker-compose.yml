@@ -1,0 +1,10 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8000:10000"
+    volumes:
+      - ./src:/home/appuser/src
+    environment:
+      - PORT=10000
+    command: ["fastapi", "dev", "src/randomizer/main.py", "--host", "0.0.0.0", "--port", "10000"]
