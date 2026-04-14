@@ -1,10 +1,10 @@
-FROM python:3.14-alpine AS builder
+FROM python:3.14.0-alpine3.20 AS builder
 RUN pip install uv && adduser -D -u 1000 appuser
 WORKDIR /home/appuser
 COPY --chown=appuser:appuser pyproject.toml uv.lock ./
 RUN uv sync --frozen --no-install-project
 
-FROM python:3.14-alpine AS production
+FROM python:3.14.0-alpine3.20 AS production
 RUN pip install uv && adduser -D -u 1000 appuser
 WORKDIR /home/appuser
 COPY --from=builder /home/appuser/.venv/ .venv/
