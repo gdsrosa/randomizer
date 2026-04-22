@@ -1,11 +1,11 @@
-FROM python:3.14.0-alpine3.20 AS builder
-RUN pip install uv && adduser -D -u 1000 appuser
+FROM python:3.14-slim AS builder
+RUN pip install uv && adduser --disabled-password --uid 1000 --gecos '' appuser
 WORKDIR /home/appuser
 COPY --chown=appuser:appuser pyproject.toml uv.lock ./
 RUN uv sync --frozen --no-install-project
 
-FROM python:3.14.0-alpine3.20 AS production
-RUN pip install uv && adduser -D -u 1000 appuser
+FROM python:3.14-slim AS production
+RUN pip install uv && adduser --disabled-password --uid 1000 --gecos '' appuser
 WORKDIR /home/appuser
 COPY --from=builder /home/appuser/.venv/ .venv/
 COPY --chown=appuser:appuser src/ ./src/
