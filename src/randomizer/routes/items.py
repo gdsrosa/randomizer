@@ -1,8 +1,9 @@
 import random
 from uuid import UUID
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 
+from ..auth.service import get_current_user_from_header
 from ..database import items_db
 from ..schemas import (
     ItemDeleteResponse,
@@ -10,13 +11,14 @@ from ..schemas import (
     ItemRequest,
     ItemResponse,
     ItemUpdateResponse,
+    UserInDB,
 )
 
 router = APIRouter(prefix="/items", tags=["Random Items Management"])
 
 
 @router.post("", response_model=ItemResponse)
-def create_item(item: ItemRequest):
+def create_item(item: ItemRequest, current_user: UserInDB = Depends(get_current_user_from_header)):
     existing = items_db.get_by_name(item.name)
     if existing:
         raise HTTPException(status_code=400, detail="Item already exists.")
@@ -26,7 +28,7 @@ def create_item(item: ItemRequest):
 
 
 @router.get("", response_model=ItemListResponse)
-def get_randomized_items():
+def get_randomized_items(current_user: UserInDB = Depends(get_current_user_from_header)):
     all_items = items_db.get_all()
     randomized_items = all_items.copy()
     random.shuffle(randomized_items)
@@ -39,7 +41,7 @@ def get_randomized_items():
 
 
 @router.put("/{item_id}", response_model=ItemUpdateResponse)
-def update_item(item_id: UUID, item: ItemRequest):
+def update_item(item_id: UUID, item: ItemRequest, current_user: UserInDB = Depends(get_current_user_from_header)):
     item_to_update = items_db.get_by_id(str(item_id))
 
     if not item_to_update:
@@ -70,7 +72,7 @@ def update_item(item_id: UUID, item: ItemRequest):
 
 
 @router.delete("/{item_id}", response_model=ItemDeleteResponse)
-def delete_item(item_id: UUID):
+def delete_item(item_id: UUID, current_user: UserInDB = Depends(get_current_user_from_header)):
     item_to_delete = items_db.get_by_id(str(item_id))
 
     if not item_to_delete:

@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: randomizer-api
+    env: docker
+    repo: https://github.com/gdsrosa/randomizer
+    branch: main
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
+    healthCheckPath: /
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true

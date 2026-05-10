@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .routes import items as items_router
 from .routes import random as random_router
+from .auth import routes as auth_router
 
 tags_metadata = [
     {
@@ -12,6 +13,10 @@ tags_metadata = [
     {
         "name": "Random Items Management",
         "description": "Create, shuffle, read, update and delete items",
+    },
+    {
+        "name": "Authentication",
+        "description": "User registration and authentication",
     },
 ]
 
@@ -32,6 +37,7 @@ app.add_middleware(
 
 app.include_router(random_router.router)
 app.include_router(items_router.router)
+app.include_router(auth_router.router)
 
 
 @app.get("/", tags=["Random Playground"])

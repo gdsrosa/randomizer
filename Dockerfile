@@ -12,4 +12,4 @@ COPY --chown=appuser:appuser src/ ./src/
 USER appuser
 ENV PATH="/home/appuser/.venv/bin:$PATH"
 EXPOSE 10000
-CMD ["fastapi", "run", "src/randomizer/main.py", "--host", "0.0.0.0", "--port", "10000"]
+CMD fastapi run src/randomizer/main.py --host 0.0.0.0 --port ${PORT:-10000}

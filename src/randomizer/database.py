@@ -1,6 +1,6 @@
 from typing import Protocol
 
-from .schemas import ItemRequest
+from .schemas import ItemRequest, UserInDB
 
 
 class ItemRepository(Protocol):
@@ -15,6 +15,12 @@ class ItemRepository(Protocol):
     def update(self, item_id: str, new_name: str) -> ItemRequest | None: ...
 
     def delete(self, item_id: str) -> ItemRequest | None: ...
+
+
+class UserRepository(Protocol):
+    def get_by_username(self, username: str) -> UserInDB | None: ...
+
+    def add(self, user: UserInDB) -> None: ...
 
 
 class InMemoryItemRepository:
@@ -50,4 +56,16 @@ class InMemoryItemRepository:
         return item
 
 
+class InMemoryUserRepository:
+    def __init__(self) -> None:
+        self._users: list[UserInDB] = []
+
+    def get_by_username(self, username: str) -> UserInDB | None:
+        return next((user for user in self._users if user.username == username), None)
+
+    def add(self, user: UserInDB) -> None:
+        self._users.append(user)
+
+
 items_db: InMemoryItemRepository = InMemoryItemRepository()
+users_db: InMemoryUserRepository = InMemoryUserRepository()

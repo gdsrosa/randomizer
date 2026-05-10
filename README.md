@@ -81,12 +81,13 @@ The API will be available at `http://localhost:8000`
 
 ### Production Deployment (Render)
 
-Connect your GitHub repository to [Render](https://render.com/) and use:
-
-- **Build Command**: `docker build -t randomizer-api .`
-- **Port**: `10000`
-
-Render will automatically detect the health endpoint and configure SSL.
+1. Push this repo to GitHub
+2. In [Render Dashboard](https://dashboard.render.com/), create a **New Web Service** → select **GitHub**
+3. Authorize Render and select the `randomizer` repo
+4. Render auto-detects `render.yaml` — confirm the settings
+5. Render generates a secure `JWT_SECRET` automatically
+6. Click **Create Web Service** — it builds and deploys
+7. Auto-deploys on every push to `main`
 
 ### Manual Docker Run
 
