@@ -10,6 +10,7 @@ WORKDIR /home/appuser
 COPY --from=builder /home/appuser/.venv/ .venv/
 COPY --chown=appuser:appuser src/ ./src/
 USER appuser
-ENV PATH="/home/appuser/.venv/bin:$PATH"
+ENV PATH="/home/appuser/.venv/bin:$PATH" \
+    PYTHONPATH="/home/appuser/src"
 EXPOSE 10000
-CMD fastapi run src/randomizer/main.py --host 0.0.0.0 --port ${PORT:-10000}
+CMD python -m uvicorn randomizer.main:app --host 0.0.0.0 --port ${PORT:-10000}
