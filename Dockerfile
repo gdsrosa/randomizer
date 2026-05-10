@@ -13,4 +13,4 @@ USER appuser
 ENV PATH="/home/appuser/.venv/bin:$PATH" \
     PYTHONPATH="/home/appuser/src"
 EXPOSE 10000
-CMD ["python", "-m", "uvicorn", "randomizer.main:app", "--host", "0.0.0.0", "--port", "10000"]
+CMD exec /home/appuser/.venv/bin/python -m uvicorn randomizer.main:app --host 0.0.0.0 --port ${PORT:-10000}
