@@ -19,7 +19,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 
 def _truncate_password(password: str, max_bytes: int = 72) -> str:
-    password_bytes = password.encode("utf-8")[:max_bytes]
+    password_bytes = password.encode("utf-8")[:max_bytes] 
     return password_bytes.decode("utf-8", errors="ignore")
 
 
